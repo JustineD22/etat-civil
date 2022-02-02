@@ -72,7 +72,6 @@ if (isset($_POST['frm'])) {
 
         echo $messageErreur;
 
-        echo password_hash($mdp,  PASSWORD_DEFAULT);
 
 
 

@@ -38,8 +38,12 @@
         <option value="Divorcé(e)"></option>
         <option value="Paxé(e)"></option>            
     </datalist>
-      <br><br>
-      
+    <br><br>
+    <label for="villenaissance">Votre ville de Naissance :</label>
+    <input type="text" id="villenaissance" name="villenaissance" placeholder="Votre Ville de Naissance">
+    <br/><br/>
+    
+
     <input type="reset" value="Effacer"/>
     <input type="submit" value="Clique ici pour valider"/>
     <input type="hidden" name="frm"/>
