@@ -1,13 +1,22 @@
 <?php
 if (isset($_POST['frm'])) {
-    
+    $sexe = $_POST['sexe'] ?? '';
     $nom = htmlentities(trim($_POST['nom'])) ?? '';
     $prenom = htmlentities(trim($_POST['prenom'])) ?? '';
+    $adresse = htmlentities(trim($_POST['adresse'])) ?? '';
+    $cp = htmlentities(trim($_POST['cp'])) ?? '';
+    $ville = htmlentities(trim($_POST['ville'])) ?? '';
+    $numero = htmlentities(trim($_POST['numero'])) ?? '';
     $email = htmlentities(trim($_POST['email'])) ?? '';
+    $date = htmlentities(trim($_POST['datenaissance'])) ?? '';
+    $matrimonale = htmlentities(trim($_POST['matrimonale'])) ?? '';
+    $villenaissance = htmlentities(trim($_POST['villenaissance'])) ?? '';
 
     $erreur = array();
 
 
+    if (strlen($sexe) === 0)
+        array_push($erreur, "Veuillez saisir votre genre");
 
     if (strlen($nom) === 0)
         array_push($erreur, "Veuillez saisir votre nom");
@@ -20,23 +29,37 @@ if (isset($_POST['frm'])) {
 
     elseif (!ctype_alpha($prenom))
         array_push($erreur, "Veuillez saisir des caractères alphabétiques");
+    
+    if (strlen($adresse) === 0)
+        array_push($erreur, "Veuillez saisir votre adresse");
+
+    if (strlen($cp) === 0)
+        array_push($erreur, "Veuillez saisir votre code postal");
+
+    if (strlen($ville) === 0)
+        array_push($erreur, "Veuillez saisir votre code ville");
+
+    if (strlen($numero) === 0)
+        array_push($erreur, "Veuillez saisir votre code numéro de téléphone");
 
     if (!filter_var($email, FILTER_VALIDATE_EMAIL))
         array_push($erreur, "Veuillez saisir un e-mail valide");
 
-    if (strlen($mdp) === 0)
-        array_push($erreur, "Veuillez saisir un mot de passe");
+    
+    if (strlen($datenaissance) === 0)
+        array_push($erreur, "Veuillez saisir votre date de naissance");
 
-    if (strlen($mdp2) === 0)
-        array_push($erreur, "Veuillez saisir la vérification de votre mot de passe");
+    if ($matrimonale === '')
+        array_push($erreur, "Veuillez sélectionner votre situation matrimonale");
 
-    if ($mdp !== $mdp2)
-        array_push($erreur, "Vos mots de passe ne correspondent pas");
+        
+    if (strlen($villenaissance) === 0)
+        array_push($erreur, "Veuillez saisir votre ville de naissance");
 
     if (count($erreur) === 0) {
         $serverName = "localhost";
         $userName = "root";
-        $database = "exercice";
+        $database = "etat civil";
         $userPassword = "";
 
         try{
@@ -45,8 +68,8 @@ if (isset($_POST['frm'])) {
             
             $conn->beginTransaction();
             $mdp = password_hash($mdp, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO utilisateurs(id_utilisateur, nom, prenom, mail, mdp)
-            VALUES (NULL, '$nom', '$prenom', '$email', '$mdp') ";
+            $sql = "INSERT INTO users (id_user, sexe , nom, prenom, adresse, cp, ville, numero, email, datenaissance, matrimonale, villenaissance)
+            VALUES (NULL, '$sexe', '$nom', '$prenom', '$adresse', '$cp', '$ville', '$numero', '$email', '$datenaissance', $matrimonale ,'$villenaissance')";
             $conn->exec($sql);
             $conn->commit();
             echo "<p>Inserstion effectués </p>";
@@ -78,7 +101,7 @@ if (isset($_POST['frm'])) {
     }
 } else {
     echo "Merci de renseigner le formulaire";
-    $nom = $prenom = $email = '';
+    $sexe = $nom = $prenom = $adresse = $cp = $ville = $numero = $email = $matrimonale = $datenaissance = $villenaissance = '';
 }
 
 
